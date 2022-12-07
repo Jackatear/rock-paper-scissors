@@ -6,7 +6,7 @@ function getComputerChoice() {
 
 function playRound(playerSelection, computerSelection){
     if (playerSelection === computerSelection) {
-        return "It's a Draw! both picked " + playerSelection;
+        return 'draw';
     }
     else {
         return determineWinner(computerSelection,playerSelection);
@@ -21,11 +21,11 @@ function determineWinner(computerSelection, playerSelection) {
     while(control)
         if (computerSelection == arr[0]){
             if (playerSelection == arr[1]){
-                return "You Win!";
+                return 'win';
                 control = 0;
             }
             else { 
-                return "You Lose!";
+                return 'lose';
                 control = 0;
             }
         }
@@ -37,15 +37,28 @@ function determineWinner(computerSelection, playerSelection) {
         }
 }
 
+function game(){
+    wins = 0
+    loses = 0
+    draws = 0
+    for (let i = 0; i < 5; i++) {
+        const computerSelection = getComputerChoice();
+        const input = prompt("rock paper or scissors?: ");
+        const playerSelection = input.toLowerCase();
+        result = playRound(computerSelection, playerSelection)
+        if (result == 'win'){
+            wins++;
+        }
+        else if (result == 'lose'){
+            loses++;
+        }
+        else if (result == 'draw'){
+            draws++;
+        }
+    }
 
-// console.log(getComputerChoice())
+    return "You won " + wins + " times, you lost " + loses + " times and you drew " + draws + " times."
 
-const computerSelection = getComputerChoice()
+}
 
-const input = prompt("rock paper or scissors?: ")
-const playerSelection = input.toLowerCase()
-
-console.log(playRound(playerSelection, computerSelection))
-
-console.log("The computer picked " + computerSelection)
-console.log("You picked " + playerSelection)
+console.log(game())
