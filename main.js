@@ -1,25 +1,20 @@
+// functions 
 
 function getComputerChoice() {
     arr = ['rock','paper','scissors'];
     return arr[Math.floor(Math.random()*arr.length)];
 }
 
-function playRound(playerSelection, computerSelection){
-    if (playerSelection === computerSelection) {
-        return 'draw';
-    }
-    else {
-        return determineWinner(computerSelection,playerSelection);
-    }
-}
 
 function determineWinner(computerSelection, playerSelection) {
-
     arr = ['rock', 'paper', 'scissors'];
     temp = [...arr];
     control = 1;
     while(control)
         if (computerSelection == arr[0]){
+            if (playerSelection === computerSelection) {
+                return 'draw';
+            }
             if (playerSelection == arr[1]){
                 return 'win';
                 control = 0;
@@ -36,29 +31,39 @@ function determineWinner(computerSelection, playerSelection) {
             temp = [...arr];
         }
 }
+    
+const buttons = document.querySelectorAll('button');
+let playerSelection;
+let computerSelection;
+let wins = 0;
+let loses = 0;
+let draws = 0;
+let winCountDisplay = document.querySelector('.win-count');
+let loseCountDisplay = document.querySelector('.lose-count');
+let drawCountDisplay = document.querySelector('.draw-count');
+let gameDescription = document.querySelector('.game-description');
 
-function game(){
-    wins = 0
-    loses = 0
-    draws = 0
-    for (let i = 0; i < 5; i++) {
-        const computerSelection = getComputerChoice();
-        const input = prompt("rock paper or scissors?: ");
-        const playerSelection = input.toLowerCase();
-        result = playRound(computerSelection, playerSelection)
+
+buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+
+        playerSelection = btn.id;
+        computerSelection = getComputerChoice();
+        result = determineWinner(computerSelection, playerSelection);
         if (result == 'win'){
             wins++;
+            winCountDisplay.textContent = wins;
         }
-        else if (result == 'lose'){
+        if (result == 'lose'){
             loses++;
+            loseCountDisplay.textContent = loses;
         }
-        else if (result == 'draw'){
+        if (result == 'draw'){
             draws++;
+            drawCountDisplay.textContent = draws;
         }
-    }
 
-    return "You won " + wins + " times, you lost " + loses + " times and you drew " + draws + " times."
+        gameDescription.textContent = `You picked ${playerSelection} and the Computer picked ${computerSelection}. This means you ${result}`;
+    })
+})
 
-}
-
-console.log(game())
